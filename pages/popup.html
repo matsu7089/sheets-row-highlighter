@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Row Highlighter</title>
+    <link rel="stylesheet" href="https://unpkg.com/huebee@2/dist/huebee.min.css" />
+    <link rel="stylesheet" href="../styles/popup.css" />
+    <script src="https://unpkg.com/huebee@2/dist/huebee.pkgd.min.js"></script>
+    <script src="../scripts/popup.js"></script>
+  </head>
+  <body>
+    <form>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>A</th>
+            <th>B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>1</th>
+            <td colspan="2" class="center">
+              <p class="m-1">Row Highlighter</p>
+            </td>
+          </tr>
+          <tr>
+            <th>2</th>
+            <td>
+              <p class="m-1">Color</p>
+            </td>
+            <td>
+              <input class="m-1" id="color" />
+            </td>
+          </tr>
+          <tr>
+            <th>3</th>
+            <td>
+              <p class="m-1">Opacity</p>
+            </td>
+            <td>
+              <input class="m-1" id="opacity" type="number" min="0.01" max="0.5" step="0.01" />
+            </td>
+          </tr>
+          <tr>
+            <th>4</th>
+            <td colspan="2" class="center">
+              <input class="m-1" id="reset" type="button" value="Reset" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "Google Sheets Row Highlighter",
+  "short_name": "Row Highlighter",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "default_locale": "en",
+  "description": "__MSG_extensionDescription__",
+  "homepage_url": "https://github.com/matsu7089/googlesheets-row-highlighter",
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "content_scripts": [{
+    "matches": ["https://docs.google.com/spreadsheets/d/*"],
+    "js": ["scripts/content.js"]
+  }],
+  "browser_action": {
+    "default_popup": "pages/popup.html"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "content_security_policy": "script-src 'self' https://unpkg.com/huebee@2/dist/; object-src 'self'"
+}

@@ -1,0 +1,48 @@
+html {
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0.5rem;
+}
+
+table,
+th,
+td {
+  border-collapse: collapse;
+  border: 1px #e2e3e3 solid;
+}
+
+th {
+  background-color: #f8f9fa;
+  color: #5f6368;
+  font-size: 0.75rem;
+  font-weight: normal;
+  min-width: 1.5rem;
+}
+
+td {
+  background-color: #fff;
+  color: #000;
+}
+
+p {
+  font-size: 1rem;
+}
+
+input {
+  width: 72px;
+}
+
+.center {
+  text-align: center;
+}
+
+.m-1 {
+  margin: 0.25rem;
+}
+
+.huebee__close-button {
+  display: none;
+}
