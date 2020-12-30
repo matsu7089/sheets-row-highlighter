@@ -1,5 +1,6 @@
 const activeBorderClass = 'active-cell-border'
 const columnHeaderClass = 'column-headers-background'
+const menubarId = 'docs-menubars'
 
 const defaultColor = '#0e65eb'
 const defaultOpacity = '0.1'
@@ -61,6 +62,20 @@ const onSheetLoaded = () => {
     },
     true
   )
+
+  // メニューバーの表示切り替え対応
+  const menubar = document.getElementById(menubarId)
+  const observer = new MutationObserver(() => {
+    // 位置ズレの暫定対応
+    setTimeout(() => {
+      onResize()
+      doHighlight()
+    })
+  })
+  observer.observe(menubar, {
+    attriblutes: true,
+    attributeFilter: ['style'],
+  })
 }
 
 /**
@@ -100,13 +115,24 @@ const doHighlight = () => {
 }
 
 /**
+ * エディターのリサイズ時
+ */
+const onResize = () => {
+  // headerBottomを再取得
+  const header = document.getElementsByClassName(columnHeaderClass)
+  if (header.length === 0) return
+  headerBottom = header[0].getBoundingClientRect().bottom
+}
+
+/**
  * シートの要素が取得できるまで待機
  */
 const waitLoadSheet = () => {
+  const menubar = document.getElementById(menubarId)
   const header = document.getElementsByClassName(columnHeaderClass)
   activeBorderList = document.getElementsByClassName(activeBorderClass)
 
-  if (header.length === 1 && activeBorderList.length === 4) {
+  if (menubar !== null && header.length === 1 && activeBorderList.length === 4) {
     headerBottom = header[0].getBoundingClientRect().bottom
 
     onSheetLoaded()
