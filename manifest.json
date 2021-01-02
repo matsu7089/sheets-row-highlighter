@@ -21,5 +21,5 @@
   "permissions": [
     "storage"
   ],
-  "content_security_policy": "script-src 'self' https://unpkg.com/huebee@2/dist/; object-src 'self'"
+  "content_security_policy": "script-src 'self'; object-src 'self'"
 }
