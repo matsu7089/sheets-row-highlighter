@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "Highlight a row of current cell in Google Sheets.",
+    "message": "Highlight a row (and column) of current cell in Google Sheets.",
     "description": "Description of the extension."
   },
   "toggleRowDescription": {

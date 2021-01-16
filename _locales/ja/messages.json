@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "Googleスプレッドシートでカレントセルの行をハイライトします。",
+    "message": "Googleスプレッドシートでカレントセルの行(列)をハイライトします。",
     "description": "Description of the extension."
   },
   "toggleRowDescription": {
