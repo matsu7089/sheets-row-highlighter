@@ -1,9 +1,13 @@
 window.addEventListener('load', () => {
   const opacityInput = document.getElementById('opacity')
+  const rowInput = document.getElementById('row')
+  const columnInput = document.getElementById('column')
   const resetButton = document.getElementById('reset')
 
   const defaultColor = '#0e65eb'
   const defaultOpacity = '0.1'
+  const defaultRow = true
+  const defaultColumn = false
 
   const hueb = new Huebee('#color', {
     notation: 'hex',
@@ -25,10 +29,14 @@ window.addEventListener('load', () => {
   resetButton.addEventListener('click', () => {
     hueb.setColor(defaultColor)
     opacityInput.value = defaultOpacity
+    rowInput.checked = defaultRow
+    columnInput.checked = defaultColumn
 
     chrome.storage.local.set({
       color: defaultColor,
       opacity: defaultOpacity,
+      row: defaultRow,
+      column: defaultColumn,
     })
   })
 
@@ -36,20 +44,29 @@ window.addEventListener('load', () => {
   const save = () => {
     const color = hueb.color
     const opacity = Math.min(Math.max(opacityInput.value, 0.01), 0.5)
+    const row = rowInput.checked
+    const column = columnInput.checked
 
     chrome.storage.local.set({
       color,
       opacity,
+      row,
+      column,
     })
   }
 
   // 設定読み込み
-  chrome.storage.local.get(['color', 'opacity'], (items) => {
+  chrome.storage.local.get(['color', 'opacity', 'row', 'column'], (items) => {
     hueb.setColor(items.color || defaultColor)
     opacityInput.value = items.opacity || defaultOpacity
+
+    rowInput.checked = items.row === undefined ? defaultRow : items.row
+    columnInput.checked = items.column === undefined ? defaultColumn : items.column
 
     // 値が変更されたときに保存
     hueb.on('change', save)
     opacityInput.addEventListener('change', save)
+    rowInput.addEventListener('change', save)
+    columnInput.addEventListener('change', save)
   })
 })
