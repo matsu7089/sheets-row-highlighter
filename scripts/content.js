@@ -1,15 +1,19 @@
 const activeBorderClass = 'active-cell-border'
 const columnHeaderClass = 'column-headers-background'
 const menubarId = 'docs-menubars'
+const gridContainerId = 'waffle-grid-container'
 
 const defaultColor = '#0e65eb'
 const defaultOpacity = '0.1'
+const defaultRow = true
+const defaultColumn = false
 
 /**
  * ハイライト要素
  * @type {HTMLDivElement}
  */
-const highlightElm = document.createElement('div')
+const rowElm = document.createElement('div')
+const colElm = document.createElement('div')
 
 /**
  * アクティブセルのボーダー要素
@@ -19,6 +23,16 @@ let activeBorderList = null
 
 /** 行ヘッダーのbottom位置 */
 let headerBottom = 0
+
+/**
+ * スプレッドシートのコンテナ要素
+ * @type {HTMLDivElement}
+ */
+let gridContainer = null
+
+/** 各ハイライトが有効かどうか */
+let enableRow = defaultRow
+let enableColumn = defaultColumn
 
 /**
  * シート読み込み完了時
@@ -32,14 +46,24 @@ const onSheetLoaded = () => {
     pointerEvents: 'none',
   }
   for (const [key, value] of Object.entries(styles)) {
-    highlightElm.style[key] = value
+    rowElm.style[key] = value
+    colElm.style[key] = value
   }
 
   // 設定読み込み
   const loadSettings = () => {
-    chrome.storage.local.get(['color', 'opacity'], (items) => {
-      highlightElm.style.backgroundColor = items.color || defaultColor
-      highlightElm.style.opacity = items.opacity || defaultOpacity
+    const rowStyle = rowElm.style
+    const colStyle = colElm.style
+
+    chrome.storage.local.get(['color', 'opacity', 'row', 'column'], (items) => {
+      rowStyle.backgroundColor = items.color || defaultColor
+      rowStyle.opacity = items.opacity || defaultOpacity
+
+      colStyle.backgroundColor = items.color || defaultColor
+      colStyle.opacity = items.opacity || defaultOpacity
+
+      enableRow = items.row === undefined ? defaultRow : items.row
+      enableColumn = items.column === undefined ? defaultColumn : items.column
     })
   }
   loadSettings()
@@ -48,7 +72,10 @@ const onSheetLoaded = () => {
   chrome.storage.onChanged.addListener(loadSettings)
 
   // bodyにハイライト要素追加
-  document.body.appendChild(highlightElm)
+  const container = document.createElement('div')
+  container.appendChild(rowElm)
+  container.appendChild(colElm)
+  document.body.appendChild(container)
 
   // イベント登録
   window.addEventListener('click', doHighlight)
@@ -82,6 +109,9 @@ const onSheetLoaded = () => {
  * ハイライト実行
  */
 const doHighlight = () => {
+  const rowStyle = rowElm.style
+  const colStyle = colElm.style
+
   let topBorder = activeBorderList[0]
 
   // アクティブシートの変更対応
@@ -91,27 +121,38 @@ const doHighlight = () => {
 
     topBorder = activeBorderList[0]
     if (topBorder.offsetParent === null) {
-      highlightElm.style.display = 'none'
+      rowStyle.display = 'none'
+      colStyle.display = 'none'
       return
     }
   }
 
   const topBorderRect = topBorder.getBoundingClientRect()
   const bottomBorderRect = activeBorderList[1].getBoundingClientRect()
+  const gridRect = gridContainer.getBoundingClientRect()
 
-  // アクティブセルのbottom位置がヘッダーより上の場合はハイライト非表示
-  if (bottomBorderRect.bottom <= headerBottom) {
-    highlightElm.style.display = 'none'
+  // アクティブセルのbottom位置がヘッダーより上か
+  // top位置がスプレッドシートのグリッドより下の場合はハイライト非表示
+  if (bottomBorderRect.bottom <= headerBottom || gridRect.bottom <= topBorderRect.top) {
+    rowStyle.display = 'none'
+    colStyle.display = 'none'
     return
   }
 
-  // ハイライトtop位置計算（結合セル対応）
+  // 行ハイライトtop位置計算（結合セル対応）
   const top = topBorderRect.bottom < headerBottom ? headerBottom : topBorderRect.top
 
-  // ハイライト要素にスタイル適用
-  highlightElm.style.top = top + 'px'
-  highlightElm.style.height = bottomBorderRect.bottom - top + 'px'
-  highlightElm.style.display = 'block'
+  // 行ハイライト要素にスタイル適用
+  rowStyle.top = top + 'px'
+  rowStyle.height = bottomBorderRect.bottom - top + 'px'
+  rowStyle.display = enableRow ? 'block' : 'none'
+
+  // 列ハイライト要素にスタイル適用
+  colStyle.top = gridRect.top + 'px'
+  colStyle.left = topBorderRect.left + 'px'
+  colStyle.height = gridRect.height + 'px'
+  colStyle.width = topBorderRect.width + 'px'
+  colStyle.display = enableColumn ? 'block' : 'none'
 }
 
 /**
@@ -129,10 +170,16 @@ const onResize = () => {
  */
 const waitLoadSheet = () => {
   const menubar = document.getElementById(menubarId)
+  gridContainer = document.getElementById(gridContainerId)
   const header = document.getElementsByClassName(columnHeaderClass)
   activeBorderList = document.getElementsByClassName(activeBorderClass)
 
-  if (menubar !== null && header.length === 1 && activeBorderList.length === 4) {
+  if (
+    menubar !== null &&
+    gridContainer !== null &&
+    header.length === 1 &&
+    activeBorderList.length === 4
+  ) {
     headerBottom = header[0].getBoundingClientRect().bottom
 
     onSheetLoaded()
