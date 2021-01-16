@@ -69,4 +69,12 @@ window.addEventListener('load', () => {
     rowInput.addEventListener('change', save)
     columnInput.addEventListener('change', save)
   })
+
+  // ショートカット入力のメッセージを受け取ったとき
+  chrome.runtime.onMessage.addListener((request) => {
+    if (request.type !== 'commands') return
+
+    rowInput.checked = request.row
+    columnInput.checked = request.column
+  })
 })
