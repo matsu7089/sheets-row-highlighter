@@ -50,27 +50,6 @@ const onSheetLoaded = () => {
     colElm.style[key] = value
   }
 
-  // 設定読み込み
-  const loadSettings = () => {
-    const rowStyle = rowElm.style
-    const colStyle = colElm.style
-
-    chrome.storage.local.get(['color', 'opacity', 'row', 'column'], (items) => {
-      rowStyle.backgroundColor = items.color || defaultColor
-      rowStyle.opacity = items.opacity || defaultOpacity
-
-      colStyle.backgroundColor = items.color || defaultColor
-      colStyle.opacity = items.opacity || defaultOpacity
-
-      enableRow = items.row === undefined ? defaultRow : items.row
-      enableColumn = items.column === undefined ? defaultColumn : items.column
-    })
-  }
-  loadSettings()
-
-  // 設定変更時に再読み込み
-  chrome.storage.onChanged.addListener(loadSettings)
-
   // bodyにハイライト要素追加
   const container = document.createElement('div')
   container.appendChild(rowElm)
@@ -103,6 +82,29 @@ const onSheetLoaded = () => {
     attriblutes: true,
     attributeFilter: ['style'],
   })
+
+  // 設定読み込み
+  const loadSettings = () => {
+    const rowStyle = rowElm.style
+    const colStyle = colElm.style
+
+    chrome.storage.local.get(['color', 'opacity', 'row', 'column'], (items) => {
+      rowStyle.backgroundColor = items.color || defaultColor
+      rowStyle.opacity = items.opacity || defaultOpacity
+
+      colStyle.backgroundColor = items.color || defaultColor
+      colStyle.opacity = items.opacity || defaultOpacity
+
+      enableRow = items.row === undefined ? defaultRow : items.row
+      enableColumn = items.column === undefined ? defaultColumn : items.column
+
+      doHighlight()
+    })
+  }
+  loadSettings()
+
+  // 設定変更時に再読み込み
+  chrome.storage.onChanged.addListener(loadSettings)
 }
 
 /**
@@ -183,7 +185,6 @@ const waitLoadSheet = () => {
     headerBottom = header[0].getBoundingClientRect().bottom
 
     onSheetLoaded()
-    doHighlight()
   } else {
     setTimeout(waitLoadSheet, 100)
   }
