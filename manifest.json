@@ -18,8 +18,19 @@
   "browser_action": {
     "default_popup": "pages/popup.html"
   },
+  "background": {
+    "scripts": ["scripts/background.js"]
+  },
   "permissions": [
     "storage"
   ],
-  "content_security_policy": "script-src 'self'; object-src 'self'"
+  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "commands": {
+    "toggleRow": {
+      "description":"__MSG_toggleRowDescription__"
+    },
+    "toggleColumn": {
+      "description":"__MSG_toggleColumnDescription__"
+    }
+  }
 }
