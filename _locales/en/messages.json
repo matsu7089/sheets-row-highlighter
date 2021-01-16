@@ -2,5 +2,11 @@
   "extensionDescription": {
     "message": "Highlight a row of current cell in Google Sheets.",
     "description": "Description of the extension."
+  },
+  "toggleRowDescription": {
+    "message":"Toggle row highlight"
+  },
+  "toggleColumnDescription": {
+    "message":"Toggle column highlight"
   }
 }
