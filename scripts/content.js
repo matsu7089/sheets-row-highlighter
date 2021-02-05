@@ -1,5 +1,5 @@
 const activeBorderClass = 'active-cell-border'
-const columnHeaderClass = 'column-headers-background'
+const colHeaderClass = 'column-headers-background'
 const menubarId = 'docs-menubars'
 const gridContainerId = 'waffle-grid-container'
 
@@ -21,8 +21,8 @@ const colElm = document.createElement('div')
  */
 let activeBorderList = null
 
-/** 行ヘッダーのbottom位置 */
-let headerBottom = 0
+/** 列ヘッダーのbottom位置 */
+let colHeaderBottom = 0
 
 /**
  * スプレッドシートのコンテナ要素
@@ -135,14 +135,14 @@ const doHighlight = () => {
 
   // アクティブセルのbottom位置がヘッダーより上か
   // top位置がスプレッドシートのグリッドより下の場合はハイライト非表示
-  if (bottomBorderRect.bottom <= headerBottom || gridRect.bottom <= topBorderRect.top) {
+  if (bottomBorderRect.bottom <= colHeaderBottom || gridRect.bottom <= topBorderRect.top) {
     rowStyle.display = 'none'
     colStyle.display = 'none'
     return
   }
 
   // 行ハイライトtop位置計算（結合セル対応）
-  const top = topBorderRect.bottom < headerBottom ? headerBottom : topBorderRect.top
+  const top = topBorderRect.bottom < colHeaderBottom ? colHeaderBottom : topBorderRect.top
 
   // 行ハイライト要素にスタイル適用
   rowStyle.top = top + 'px'
@@ -161,10 +161,10 @@ const doHighlight = () => {
  * エディターのリサイズ時
  */
 const onResize = () => {
-  // headerBottomを再取得
-  const header = document.getElementsByClassName(columnHeaderClass)
-  if (header.length === 0) return
-  headerBottom = header[0].getBoundingClientRect().bottom
+  // colHeaderBottomを再取得
+  const colHeader = document.getElementsByClassName(colHeaderClass)
+  if (colHeader.length === 0) return
+  colHeaderBottom = colHeader[0].getBoundingClientRect().bottom
 }
 
 /**
@@ -173,16 +173,16 @@ const onResize = () => {
 const waitLoadSheet = () => {
   const menubar = document.getElementById(menubarId)
   gridContainer = document.getElementById(gridContainerId)
-  const header = document.getElementsByClassName(columnHeaderClass)
+  const colHeader = document.getElementsByClassName(colHeaderClass)
   activeBorderList = document.getElementsByClassName(activeBorderClass)
 
   if (
     menubar !== null &&
     gridContainer !== null &&
-    header.length === 1 &&
+    colHeader.length === 1 &&
     activeBorderList.length === 4
   ) {
-    headerBottom = header[0].getBoundingClientRect().bottom
+    colHeaderBottom = colHeader[0].getBoundingClientRect().bottom
 
     onSheetLoaded()
   } else {
