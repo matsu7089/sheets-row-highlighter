@@ -31,8 +31,8 @@ let colHeaderBottom = 0
 let gridContainer = null
 
 /** 各ハイライトが有効かどうか */
-let enableRow = defaultRow
-let enableColumn = defaultColumn
+let isRowEnabled = defaultRow
+let isColEnabled = defaultColumn
 
 /**
  * シート読み込み完了時
@@ -95,8 +95,8 @@ const onSheetLoaded = () => {
       colStyle.backgroundColor = items.color || defaultColor
       colStyle.opacity = items.opacity || defaultOpacity
 
-      enableRow = items.row === undefined ? defaultRow : items.row
-      enableColumn = items.column === undefined ? defaultColumn : items.column
+      isRowEnabled = items.row === undefined ? defaultRow : items.row
+      isColEnabled = items.column === undefined ? defaultColumn : items.column
 
       doHighlight()
     })
@@ -147,14 +147,14 @@ const doHighlight = () => {
   // 行ハイライト要素にスタイル適用
   rowStyle.top = top + 'px'
   rowStyle.height = bottomBorderRect.bottom - top + 'px'
-  rowStyle.display = enableRow ? 'block' : 'none'
+  rowStyle.display = isRowEnabled ? 'block' : 'none'
 
   // 列ハイライト要素にスタイル適用
   colStyle.top = gridRect.top + 'px'
   colStyle.left = topBorderRect.left + 'px'
   colStyle.height = gridRect.height + 'px'
   colStyle.width = topBorderRect.width + 'px'
-  colStyle.display = enableColumn ? 'block' : 'none'
+  colStyle.display = isColEnabled ? 'block' : 'none'
 }
 
 /**
