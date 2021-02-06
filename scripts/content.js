@@ -147,6 +147,8 @@ const doHighlight = () => {
 
   // 行ハイライトtop位置計算（結合セル対応）
   const top = topBorderRect.bottom < colHeaderBottom ? colHeaderBottom : topBorderRect.top
+  // 列ハイライトleft位置計算（結合セル対応）
+  const colLeft = topBorderRect.left < rowHeaderRight ? rowHeaderRight : topBorderRect.left
 
   // 行ハイライト要素にスタイル適用
   rowStyle.top = top + 'px'
@@ -155,9 +157,9 @@ const doHighlight = () => {
 
   // 列ハイライト要素にスタイル適用
   colStyle.top = gridRect.top + 'px'
-  colStyle.left = topBorderRect.left + 'px'
+  colStyle.left = colLeft + 'px'
   colStyle.height = gridRect.height + 'px'
-  colStyle.width = topBorderRect.width + 'px'
+  colStyle.width = Math.max(topBorderRect.right - colLeft, 0) + 'px'
   colStyle.display = isColEnabled ? 'block' : 'none'
 }
 
