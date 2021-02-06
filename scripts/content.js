@@ -1,5 +1,6 @@
 const activeBorderClass = 'active-cell-border'
 const colHeaderClass = 'column-headers-background'
+const rowHeaderClass = 'row-headers-background'
 const menubarId = 'docs-menubars'
 const gridContainerId = 'waffle-grid-container'
 
@@ -23,6 +24,9 @@ let activeBorderList = null
 
 /** 列ヘッダーのbottom位置 */
 let colHeaderBottom = 0
+
+/** 行ヘッダーのright位置 */
+let rowHeaderRight = 0
 
 /**
  * スプレッドシートのコンテナ要素
@@ -174,16 +178,18 @@ const waitLoadSheet = () => {
   const menubar = document.getElementById(menubarId)
   gridContainer = document.getElementById(gridContainerId)
   const colHeader = document.getElementsByClassName(colHeaderClass)
+  const rowHeader = document.getElementsByClassName(rowHeaderClass)
   activeBorderList = document.getElementsByClassName(activeBorderClass)
 
   if (
     menubar !== null &&
     gridContainer !== null &&
     colHeader.length === 1 &&
+    rowHeader.length === 1 &&
     activeBorderList.length === 4
   ) {
     colHeaderBottom = colHeader[0].getBoundingClientRect().bottom
-
+    rowHeaderRight = rowHeader[0].getBoundingClientRect().right
     onSheetLoaded()
   } else {
     setTimeout(waitLoadSheet, 100)
