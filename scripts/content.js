@@ -64,6 +64,7 @@ const onSheetLoaded = () => {
   window.addEventListener('click', doHighlight)
   window.addEventListener('keydown', doHighlight)
   window.addEventListener('keyup', doHighlight)
+  window.addEventListener('resize', doHighlight)
   window.addEventListener(
     'scroll',
     () => {
