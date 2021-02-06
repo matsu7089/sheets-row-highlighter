@@ -146,13 +146,13 @@ const doHighlight = () => {
   }
 
   // 行ハイライトtop位置計算（結合セル対応）
-  const top = topBorderRect.bottom < colHeaderBottom ? colHeaderBottom : topBorderRect.top
+  const rowTop = topBorderRect.bottom < colHeaderBottom ? colHeaderBottom : topBorderRect.top
   // 列ハイライトleft位置計算（結合セル対応）
   const colLeft = topBorderRect.left < rowHeaderRight ? rowHeaderRight : topBorderRect.left
 
   // 行ハイライト要素にスタイル適用
-  rowStyle.top = top + 'px'
-  rowStyle.height = bottomBorderRect.bottom - top + 'px'
+  rowStyle.top = rowTop + 'px'
+  rowStyle.height = bottomBorderRect.bottom - rowTop + 'px'
   rowStyle.display = isRowEnabled ? 'block' : 'none'
 
   // 列ハイライト要素にスタイル適用
