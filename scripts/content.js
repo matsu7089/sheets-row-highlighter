@@ -198,4 +198,4 @@ const waitLoadSheet = () => {
     setTimeout(waitLoadSheet, 100)
   }
 }
-window.addEventListener('load', waitLoadSheet)
+waitLoadSheet()
