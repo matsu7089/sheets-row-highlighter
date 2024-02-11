@@ -40,5 +40,10 @@
     "toggleColumn": {
       "description": "__MSG_toggleColumnDescription__"
     }
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{669962c5-0a3b-4e48-a7e1-020aa9c012c8}"
+    }
   }
 }
