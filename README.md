@@ -1,6 +1,7 @@
-# Google Sheets Row Highlighter
+# Sheets Row Highlighter
 
-Googleスプレッドシートでカレントセルの行（列）をハイライトするブラウザ拡張機能
+Google スプレッドシートと Microsoft Excel Online で  
+カレントセルの行（列）をハイライトするブラウザ拡張機能
 
 [Chrome ウェブストア](https://chrome.google.com/webstore/detail/cejijldbedfmdehondfmoadlkhgjcmkd)
 
