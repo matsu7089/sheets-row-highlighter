@@ -1,0 +1,44 @@
+{
+  "name": "Google Sheets Row Highlighter",
+  "short_name": "Row Highlighter",
+  "version": "2.0.0",
+  "manifest_version": 3,
+  "default_locale": "en",
+  "description": "__MSG_extensionDescription__",
+  "homepage_url": "https://github.com/matsu7089/googlesheets-row-highlighter",
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://docs.google.com/spreadsheets/d/*",
+        "https://excel.officeapps.live.com/x/*"
+      ],
+      "js": [
+        "scripts/content/SheetsActiveCellLocator.js",
+        "scripts/content/ExcelActiveCellLocator.js",
+        "scripts/content/RowHighlighterApp.js",
+        "scripts/content/main.js"
+      ],
+      "all_frames": true
+    }
+  ],
+  "action": {
+    "default_popup": "pages/popup.html"
+  },
+  "background": {
+    "scripts": ["scripts/background.js"]
+  },
+  "permissions": ["storage"],
+  "commands": {
+    "toggleRow": {
+      "description": "__MSG_toggleRowDescription__"
+    },
+    "toggleColumn": {
+      "description": "__MSG_toggleColumnDescription__"
+    }
+  }
+}
