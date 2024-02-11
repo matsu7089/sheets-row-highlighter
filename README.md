@@ -5,7 +5,7 @@ Google スプレッドシートと Microsoft Excel Online で
 
 [Chrome ウェブストア](https://chrome.google.com/webstore/detail/cejijldbedfmdehondfmoadlkhgjcmkd)
 
-[Firefox Add-ons](https://addons.mozilla.org/ja/firefox/addon/googlesheets-row-highlighter/)
+[Firefox Add-ons](https://addons.mozilla.org/ja/firefox/addon/sheets-row-highlighter/)
 
 ## 動作イメージ
 
