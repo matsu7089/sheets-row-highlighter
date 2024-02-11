@@ -1,12 +1,12 @@
 {
   "extensionDescription": {
-    "message": "Googleスプレッドシートでカレントセルの行(列)をハイライトします。",
+    "message": "Google スプレッドシートと Microsoft Excel Online でカレントセルの行(列)をハイライトします。",
     "description": "Description of the extension."
   },
   "toggleRowDescription": {
-    "message":"行ハイライト切り替え"
+    "message": "行ハイライト切り替え"
   },
   "toggleColumnDescription": {
-    "message":"列ハイライト切り替え"
+    "message": "列ハイライト切り替え"
   }
 }
