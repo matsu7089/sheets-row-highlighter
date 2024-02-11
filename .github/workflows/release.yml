@@ -1,0 +1,30 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: build chrome extension
+        run: |
+          zip -r chrome-extension.zip . -x '.git/*' '.github/*' '.prettier*' 'manifest.firefox.json'
+
+      - name: build firefox extension
+        run: |
+          \cp -f manifest.firefox.json manifest.json
+          zip -r firefox-extension.zip . -x '.git/*' '.github/*' '.prettier*' 'manifest.firefox.json' 'chrome-extension.zip'
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: |
+            chrome-extension.zip
+            firefox-extension.zip
