@@ -580,7 +580,7 @@ proto.getCustomLength = function() {
 proto.createCanvas = function() {
   var canvas = this.canvas = document.createElement('canvas');
   canvas.className = 'huebee__canvas';
-  this.ctx = canvas.getContext('2d');
+  this.ctx = canvas.getContext('2d', { willReadFrequently: true });
   // canvas pointer events
   var canvasPointer = this.canvasPointer = new Unipointer();
   canvasPointer._bindStartEvent( canvas );
@@ -999,7 +999,7 @@ Huebee.data = function( elem ) {
 // proxy canvas used to check colors
 var proxyCanvas = document.createElement('canvas');
 proxyCanvas.width = proxyCanvas.height = 1;
-var proxyCtx = proxyCanvas.getContext('2d');
+var proxyCtx = proxyCanvas.getContext('2d', { willReadFrequently: true });
 
 function getSwatch( color ) {
   // check that color value is valid
