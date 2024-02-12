@@ -15,7 +15,7 @@
     {
       "matches": [
         "https://docs.google.com/spreadsheets/d/*",
-        "https://excel.officeapps.live.com/x/*"
+        "https://*.officeapps.live.com/x/*"
       ],
       "js": [
         "scripts/content/SheetsActiveCellLocator.js",
