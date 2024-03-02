@@ -32,7 +32,7 @@
   "background": {
     "service_worker": "scripts/background.js"
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "activeTab"],
   "commands": {
     "toggleRow": {
       "description": "__MSG_toggleRowDescription__"
