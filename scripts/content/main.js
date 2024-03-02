@@ -21,21 +21,43 @@ window.addEventListener('keyup', updateHighlight)
 window.addEventListener('resize', updateHighlight)
 window.addEventListener('scroll', updateHighlight, true)
 
+// @ts-ignore chrome.xxxの参照エラーを無視
+const storage = chrome.storage
+const sheetKey = locator.getSheetKey()
+
 const loadSettings = () => {
-  // @ts-ignore chrome.xxxの参照エラーを無視
-  chrome.storage.local.get(
-    ['color', 'opacity', 'row', 'column'],
+  storage.local.get(
+    ['color', 'opacity', 'row', 'column', 'auto', 'sheetSettingsMap'],
     (/** @type {any} */ items) => {
-      app.backgroundColor = items.color || app.backgroundColor
-      app.opacity = items.opacity || app.opacity
-      app.isRowEnabled = items.row ?? app.isRowEnabled
-      app.isColEnabled = items.column ?? app.isColEnabled
+      const { color, opacity, row, column } =
+        (items.auto && items.sheetSettingsMap?.[sheetKey]) || items
+
+      app.backgroundColor = color ?? app.backgroundColor
+      app.opacity = opacity ?? app.opacity
+      app.isRowEnabled = row ?? app.isRowEnabled
+      app.isColEnabled = column ?? app.isColEnabled
       updateHighlight()
     }
   )
 }
 loadSettings()
 
-// 設定変更時に再読み込み
+storage.local.get(['sheetSettingsMap'], ({ sheetSettingsMap }) => {
+  if (sheetSettingsMap?.[sheetKey]) {
+    sheetSettingsMap[sheetKey].lastAccess = Date.now()
+    storage.local.set({ sheetSettingsMap })
+  }
+
+  // 設定変更時に再読み込み
+  storage.onChanged.addListener(loadSettings)
+})
+
+// popupからのgetSheetKey応答処理
 // @ts-ignore chrome.xxxの参照エラーを無視
-chrome.storage.onChanged.addListener(loadSettings)
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+  if (message.type !== 'getSheetKey') {
+    return
+  }
+
+  sendResponse(sheetKey)
+})
