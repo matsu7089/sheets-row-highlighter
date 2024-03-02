@@ -1,7 +1,7 @@
 {
   "name": "Sheets Row Highlighter",
   "short_name": "Row Highlighter",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "manifest_version": 3,
   "default_locale": "en",
   "description": "__MSG_extensionDescription__",
