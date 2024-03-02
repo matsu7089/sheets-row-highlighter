@@ -39,6 +39,9 @@
     },
     "toggleColumn": {
       "description": "__MSG_toggleColumnDescription__"
+    },
+    "toggleBoth": {
+      "description": "__MSG_toggleBothDescription__"
     }
   }
 }

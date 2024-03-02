@@ -8,5 +8,8 @@
   },
   "toggleColumnDescription": {
     "message": "Toggle column highlight"
+  },
+  "toggleBothDescription": {
+    "message": "Toggle row and column highlight"
   }
 }

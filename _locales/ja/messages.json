@@ -8,5 +8,8 @@
   },
   "toggleColumnDescription": {
     "message": "列ハイライト切り替え"
+  },
+  "toggleBothDescription": {
+    "message": "行と列ハイライト切り替え"
   }
 }

@@ -32,6 +32,16 @@ chrome.commands.onCommand.addListener(async (command) => {
           column = !column
           break
         }
+        case 'toggleBoth': {
+          if (row || column) {
+            row = false
+            column = false
+          } else {
+            row = true
+            column = true
+          }
+          break
+        }
       }
 
       if (sheetKey && items.auto && sheetSettingsMap[sheetKey]) {
