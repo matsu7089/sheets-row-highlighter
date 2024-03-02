@@ -40,24 +40,6 @@ window.addEventListener('load', async () => {
     hues: 4,
   })
 
-  // 設定リセット
-  resetButton.addEventListener('click', () => {
-    hueb.setColor(defaultColor)
-    opacityInput.value = defaultOpacity
-    rowInput.checked = defaultRow
-    columnInput.checked = defaultColumn
-    autoInput.checked = defaultAuto
-
-    chrome.storage.local.set({
-      color: defaultColor,
-      opacity: defaultOpacity,
-      row: defaultRow,
-      column: defaultColumn,
-      auto: defaultAuto,
-      sheetSettingsMap: {},
-    })
-  })
-
   // 設定保存
   const save = () => {
     const color = hueb.color
@@ -101,6 +83,28 @@ window.addEventListener('load', async () => {
       })
     })
   }
+
+  // 設定リセット
+  resetButton.addEventListener('click', () => {
+    hueb.off('change', save) // huebeeのchangeイベント発火を一時的に無効化
+
+    hueb.setColor(defaultColor)
+    opacityInput.value = defaultOpacity
+    rowInput.checked = defaultRow
+    columnInput.checked = defaultColumn
+    autoInput.checked = defaultAuto
+
+    chrome.storage.local.set({
+      color: defaultColor,
+      opacity: defaultOpacity,
+      row: defaultRow,
+      column: defaultColumn,
+      auto: defaultAuto,
+      sheetSettingsMap: {},
+    })
+
+    hueb.on('change', save)
+  })
 
   // 設定読み込み
   chrome.storage.local.get(
