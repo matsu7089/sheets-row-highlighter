@@ -20,7 +20,7 @@ chrome.commands.onCommand.addListener(async (command) => {
     (items) => {
       let row = items.row ?? defaultRow
       let column = items.column ?? defaultColumn
-      const sheetSettingsMap = items.sheetSettingsMap ?? {}
+      let sheetSettingsMap = items.sheetSettingsMap ?? {}
 
       // 入力されたショートカットに応じて設定切り替え
       switch (command) {
@@ -53,6 +53,18 @@ chrome.commands.onCommand.addListener(async (command) => {
           row,
           column,
           lastAccess: Date.now(),
+        }
+
+        const sheetSettingsLimit = 250
+
+        if (sheetSettingsLimit < Object.keys(sheetSettingsMap).length) {
+          sheetSettingsMap = Object.entries(sheetSettingsMap)
+            .sort((a, b) => b[1].lastAccess - a[1].lastAccess)
+            .slice(0, sheetSettingsLimit)
+            .reduce((acc, cur) => {
+              acc[cur[0]] = cur[1]
+              return acc
+            }, {})
         }
       }
 
