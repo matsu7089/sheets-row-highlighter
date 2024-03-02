@@ -137,4 +137,14 @@ class ExcelActiveCellLocator {
       zIndex: '1',
     }
   }
+
+  getSheetKey() {
+    const searchParams = new URLSearchParams(location.search)
+
+    const wopiSrc = [...searchParams.entries()].find(
+      ([key]) => key.toLowerCase() === 'wopisrc'
+    )?.[1]
+
+    return wopiSrc || searchParams.toString()
+  }
 }

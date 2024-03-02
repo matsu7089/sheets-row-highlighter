@@ -101,4 +101,9 @@ class SheetsActiveCellLocator {
       height: `${height}px`,
     }
   }
+
+  getSheetKey() {
+    const { pathname } = location
+    return pathname.match(/d\/([^/]*)/)?.[1] || pathname
+  }
 }

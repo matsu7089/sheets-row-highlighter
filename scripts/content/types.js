@@ -12,4 +12,5 @@
  * @typedef {Object} ActiveCellLocator
  * @property {() => Array<HighlightRect>} getHighlightRectList
  * @property {() => Partial<CSSStyleDeclaration>} getSheetContainerStyle
+ * @property {() => string} getSheetKey
  */
