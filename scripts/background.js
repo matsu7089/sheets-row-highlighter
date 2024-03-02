@@ -16,7 +16,7 @@ chrome.commands.onCommand.addListener(async (command) => {
   )
 
   chrome.storage.local.get(
-    ['row', 'column', 'auto', 'sheetSettingsMap'],
+    ['color', 'opacity', 'row', 'column', 'auto', 'sheetSettingsMap'],
     (items) => {
       let row = items.row ?? defaultRow
       let column = items.column ?? defaultColumn
@@ -44,12 +44,16 @@ chrome.commands.onCommand.addListener(async (command) => {
         }
       }
 
-      if (sheetKey && items.auto && sheetSettingsMap[sheetKey]) {
-        Object.assign(sheetSettingsMap[sheetKey], {
+      if (sheetKey && items.auto) {
+        const { color, opacity } = sheetSettingsMap[sheetKey] || items
+
+        sheetSettingsMap[sheetKey] = {
+          color,
+          opacity,
           row,
           column,
           lastAccess: Date.now(),
-        })
+        }
       }
 
       // 設定保存
